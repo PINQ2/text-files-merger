@@ -15,8 +15,8 @@ Files are resolved from the directory pointed to by `KIT_INPUTS_FILE`.
 | Environment variable | Default | Description |
 |---|---|---|
 | `KIT_INPUTS_FILE` | *(required)* | Path to the input directory |
-| `INPUT1_FILENAME` | `input1.txt` | Name of the first input file |
-| `INPUT2_FILENAME` | `input2.txt` | Name of the second input file |
+| `INPUT_1_NAME` | *(required)* | Filename of the first input (injected by platform) |
+| `INPUT_2_NAME` | *(required)* | Filename of the second input (injected by platform) |
 
 ## Output
 
@@ -43,10 +43,8 @@ Written to `/tmp/logs/text_files_merger.log` and to stdout.
 uv sync
 
 # Run with template inputs
-KIT_INPUTS_FILE=templates uv run python text_merger/execute.py
-
-# Run with custom filenames
-INPUT1_FILENAME=custom1.txt INPUT2_FILENAME=custom2.txt KIT_INPUTS_FILE=templates uv run python text_merger/execute.py
+KIT_INPUTS_FILE=templates INPUT_1_NAME=input1.txt INPUT_2_NAME=input2.txt \
+  uv run python text_merger/execute.py
 ```
 
 ### With Docker
@@ -58,6 +56,8 @@ docker build -t text-files-merger .
 # Run with template inputs mounted
 docker run \
   -e KIT_INPUTS_FILE=/inputs \
+  -e INPUT_1_NAME=input1.txt \
+  -e INPUT_2_NAME=input2.txt \
   -v $(pwd)/templates:/inputs \
   text-files-merger
 ```
